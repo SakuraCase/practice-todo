@@ -1,14 +1,28 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
+    <logout v-if="isLoggedIn"></logout>
+    <login v-else></login>
+
     <router-view/>
   </div>
 </template>
 
 <script>
-export default {
-  name: 'app'
-}
+  import Logout from './components/Logout'
+  import Login from './components/Login'
+
+  export default {
+    name: 'app',
+    components: {
+      Logout,
+      Login
+    },
+    computed: {
+      isLoggedIn () {
+        return this.$root.$data.token
+      }
+    }
+  }
 </script>
 
 <style>

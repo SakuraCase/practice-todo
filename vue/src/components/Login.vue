@@ -11,7 +11,7 @@
   import {LOGIN_MUTATION} from '../constants/graphql'
 
   export default {
-    name: 'AppLogin',
+    name: 'Login',
     data () {
       return {
         email: '',
@@ -30,15 +30,12 @@
           }
         }).then((result) => {
           const token = result.data.authenticateUser.token
-          this.saveToken(token)
+          localStorage.setItem(AUTH_TOKEN, token)
+          this.$root.$data.token = localStorage.getItem(AUTH_TOKEN)
           this.$router.push({path: '/todos'})
         }).catch((error) => {
           alert(error)
         })
-      },
-      saveToken (token) {
-        localStorage.setItem(AUTH_TOKEN, token)
-        this.$root.$data.token = localStorage.getItem(AUTH_TOKEN)
       }
     }
   }

@@ -3,7 +3,7 @@
 </template>
 
 <script>
-  import { AUTH_TOKEN } from '../constants/settings'
+  import {AUTH_TOKEN} from '../constants/settings'
 
   export default {
     name: 'Logout',

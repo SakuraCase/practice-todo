@@ -12,6 +12,7 @@ Vue.config.productionTip = false
 Vue.use(VueApollo)
 
 let token = localStorage.getItem(AUTH_TOKEN)
+
 const authLink = setContext((_, { headers }) => {
   return {
     headers: {

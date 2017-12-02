@@ -16,3 +16,14 @@ export const LOGGED_IN_USER = gql`
     }
   }
 `
+
+export const USER_TODOS = gql`
+  query UserTodos($id: ID!) {
+    User(id: $id) {
+      todos {
+        id
+        title
+      }
+    }
+  }
+`
