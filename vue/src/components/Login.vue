@@ -32,6 +32,7 @@
           const token = result.data.authenticateUser.token
           localStorage.setItem(AUTH_TOKEN, token)
           this.$root.$data.token = localStorage.getItem(AUTH_TOKEN)
+
           this.$router.push({path: '/todos'})
         }).catch((error) => {
           alert(error)

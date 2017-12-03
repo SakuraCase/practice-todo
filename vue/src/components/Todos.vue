@@ -20,7 +20,7 @@
     components: {
       Todo
     },
-    created: function () {
+    created () {
       this.$apollo.query({
         query: LOGGED_IN_USER
       }).then((result) => {

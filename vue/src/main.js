@@ -10,10 +10,10 @@ import VueApollo from 'vue-apollo'
 
 Vue.config.productionTip = false
 Vue.use(VueApollo)
-
-let token = localStorage.getItem(AUTH_TOKEN)
+let token
 
 const authLink = setContext((_, { headers }) => {
+  token = localStorage.getItem(AUTH_TOKEN)
   return {
     headers: {
       authorization: token ? `Bearer ${token}` : null
@@ -21,10 +21,12 @@ const authLink = setContext((_, { headers }) => {
   }
 })
 
+const httpLink = new HttpLink({
+  uri: DB_URL
+})
+
 const apolloClient = new ApolloClient({
-  link: authLink.concat(new HttpLink({
-    uri: DB_URL
-  })),
+  link: authLink.concat(httpLink),
   cache: new InMemoryCache()
 })
 
