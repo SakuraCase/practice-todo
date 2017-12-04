@@ -23,7 +23,38 @@ export const USER_TODOS = gql`
       todos {
         id
         title
+        done
       }
+    }
+  }
+`
+
+export const UPDATE_TODO = gql`
+  mutation updateTodo($id: ID!, $title: String, $done: Boolean) {
+    updateTodo(id: $id, title: $title, done: $done) {
+      id
+      title
+      done
+    }
+  }
+`
+
+export const CREATE_TODO = gql`
+  mutation createTodo($authorId: ID!, $title: String!) {
+    createTodo(authorId: $authorId, title: $title, done: false) {
+      id
+      title
+      done
+    }
+  }
+`
+
+export const DELETE_TODO = gql`
+  mutation deleteTodo($id: ID!) {
+    deleteTodo(id: $id) {
+      id
+      title
+      done
     }
   }
 `
