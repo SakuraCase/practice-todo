@@ -26,8 +26,6 @@
             id: this.todo.id,
             done: !this.todo.done
           }
-        }).then(() => {
-          this.$emit('refresh')
         })
       },
       edit () {
@@ -37,8 +35,6 @@
             id: this.todo.id,
             title: this.title
           }
-        }).then(() => {
-          this.$emit('refresh')
         })
       },
       del () {

@@ -3,13 +3,13 @@
     <h4 v-if="loading">Loading Todos...</h4>
     <div v-else>
       <h3>タスク追加</h3>
-      <create-todo @refresh="init"></create-todo>
+      <create-todo @refresh="resetStore"></create-todo>
 
       <h3>未完了タスク</h3>
-      <todo v-for="(todo, i) in tasks" @refresh="init" :key="todo.id" :todo="todo"></todo>
+      <todo v-for="(todo, i) in tasks" @refresh="resetStore" :key="todo.id" :todo="todo"></todo>
 
       <h3>完了タスク</h3>
-      <todo v-for="(todo, i) in done" @refresh="init" :key="todo.id" :todo="todo"></todo>
+      <todo v-for="(todo, i) in done" @refresh="resetStore" :key="todo.id" :todo="todo"></todo>
     </div>
   </div>
 </template>
@@ -24,6 +24,7 @@
     data () {
       return {
         todos: [],
+        user: '',
         loading: 0
       }
     },
@@ -31,35 +32,36 @@
       Todo,
       CreateTodo
     },
-    created () {
-      this.init()
-    },
     computed: {
-      done: function () {
+      done () {
         return this.todos.filter(todo => todo.done === true)
       },
-      tasks: function () {
+      tasks () {
         return this.todos.filter(todo => todo.done === false)
       }
     },
-    methods: {
-      init () {
-        this.$apollo.query({
-          query: LOGGED_IN_USER
-        }).then((result) => {
-          this.queryTodos(result.data.loggedInUser.id)
-        })
+    apollo: {
+      user: {
+        query: LOGGED_IN_USER,
+        update (data) {
+          return data.loggedInUser.id
+        }
       },
-      queryTodos (id) {
-        this.$apollo.query({
-          query: USER_TODOS,
-          variables: {
-            id: id
+      todos: {
+        query: USER_TODOS,
+        variables () {
+          return {
+            id: this.user
           }
-        }).then((result) => {
-          // Todo追加と削除のとき上手く動いてない
-          this.todos = result.data.User.todos
-        })
+        },
+        update (data) {
+          return data.User.todos
+        }
+      }
+    },
+    methods: {
+      resetStore () {
+        this.$apollo.provider.defaultClient.resetStore()
       }
     }
   }
